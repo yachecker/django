@@ -30,3 +30,17 @@ def create(req):
         'error': error
     }
     return render(req, 'main/create.html', ctx)
+
+def delete(req):
+    #delete element onclick
+    if req.method == 'POST':
+        title = req.POST.get('title')
+        task = Task.objects.get(title = title)
+        task.delete()
+        return redirect('delete')
+    else:
+        tasks = Task.objects.order_by('title')
+        return render(req, 'main/delete.html', {
+            'title': 'Delete page',
+            'tasks': tasks,
+        })
